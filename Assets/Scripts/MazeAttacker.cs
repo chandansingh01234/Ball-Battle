@@ -4,18 +4,31 @@ public class MazeAttacker : MonoBehaviour
 {
     public float speed = 2f;
     private bool hasBall = false;
-
+    public Animator Anim;
+    public float x;
+    public float z;
+    public FixedJoystick joystick;
+    public bool pc;
+    private void Start()
+    {
+        Anim = gameObject.GetComponent<Animator>();
+    }
     void Update()
     {
-        Move();
-    }
+        if (pc)
+        {
+            x= Input.GetAxis("Horizontal");
+            z = Input.GetAxis("Vertical");
+        }
+        else
+        {
+            x = joystick.Horizontal;
+            z = joystick.Vertical;
+        }
+        Anim.SetFloat("x", x);
+        Anim.SetFloat("z", z);
 
-    void Move()
-    {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        Vector3 movement = new Vector3(x, 0.0f, z);
         transform.Translate(movement * speed * Time.deltaTime, Space.World);
     }
 

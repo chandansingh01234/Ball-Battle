@@ -3,6 +3,8 @@ using UnityEngine;
 public class MazeGameManager : MonoBehaviour
 {
     public static MazeGameManager Instance;
+    public GameObject Win_message;
+    public GameObject Gameover_message;
 
     void Awake()
     {
@@ -19,13 +21,20 @@ public class MazeGameManager : MonoBehaviour
 
     public void PlayerWins()
     {
-        Debug.Log("Player Wins: Reached the Enemy's Gate!");
+        Win_message.SetActive(true);
+        Time.timeScale = 0f;
         // Handle win logic
     }
 
     public void GameOver()
     {
-        Debug.Log("Game Over: Time's up!");
+        Gameover_message.SetActive(true);
+        Time.timeScale = 0f;
         // Handle game over logic
     }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 } 

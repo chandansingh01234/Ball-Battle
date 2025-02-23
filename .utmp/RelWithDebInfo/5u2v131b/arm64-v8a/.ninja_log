@@ -1,0 +1,10 @@
+# ninja log v5
+1	8680	7617638502086065	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	26466a7a9c582a1b
+28	8777	7617638502101402	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	eb59e9ded0f45442
+22	8779	7617638502198415	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	da76d699d5be97ca
+56	8903	7617638502874952	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	4373b78264039a36
+63	8908	7617638502520025	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	8d2f55846ca321fb
+17	8967	7617638502844581	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	88e39b3bec4f9eea
+38	9755	7617638512428759	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	eba40c27db7c89d8
+10	9936	7617638514877536	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	bb299d7b2e34f78b
+9937	10723	7617638522685726	D:/Chandan/3maze game/Gameloft Project/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/5u2v131b/obj/arm64-v8a/libgame.so	e957cecc3d836c4f

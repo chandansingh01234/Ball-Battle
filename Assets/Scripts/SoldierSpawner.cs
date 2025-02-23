@@ -4,7 +4,11 @@ public class SoldierSpawner : MonoBehaviour
 {
     public GameObject attackerPrefab;
     public GameObject defenderPrefab;
-    public EnergyManager energyManager;
+
+    private void Start()
+    {
+       
+    }
 
     void Update()
     {
@@ -16,7 +20,7 @@ public class SoldierSpawner : MonoBehaviour
                 if (hit.collider.CompareTag("PlayerLand"))
                 {
                     // Spawn Attacker using Player's energy
-                    if (energyManager.SpendEnergy(true, 2)) // Player spends 2 energy
+                    if (GameObject.FindGameObjectWithTag("Energy").GetComponent<EnergyManager>().SpendEnergy(true)) ;
                     {
                         SpawnSoldier(attackerPrefab, hit.point);
                     }
@@ -24,7 +28,7 @@ public class SoldierSpawner : MonoBehaviour
                 else if (hit.collider.CompareTag("EnemyLand"))
                 {
                     // Spawn Defender using Enemy's energy
-                    if (energyManager.SpendEnergy(false, 3)) // Enemy spends 3 energy
+                    if (GameObject.FindGameObjectWithTag("Energy").GetComponent<EnergyManager>().SpendEnergy(false)) // Enemy spends 3 energy 
                     {
                         SpawnSoldier(defenderPrefab, hit.point);
                     }

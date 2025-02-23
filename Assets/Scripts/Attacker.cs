@@ -22,9 +22,11 @@ public class Attacker : MonoBehaviour
     private bool isInactivated = false;    // Flag to check if the Attacker is inactivated
     private Vector3 lastPosition;
     private float movementThreshold = 0.1f;
-
+    public Animator Anim;
+    public bool is_running;
     void Start()
     {
+        Anim = gameObject.GetComponent<Animator>();
         // Find the Ball in the scene
         ball = GameObject.FindWithTag("Ball");
         lastPosition = transform.position;
@@ -41,11 +43,11 @@ public class Attacker : MonoBehaviour
 
         UpdateMovement();
         UpdateAudio();
-        UpdateStatusText();
     }
 
     void UpdateMovement()
     {
+        is_running = true;
         if (isHoldingBall)
         {
             catchEffect.SetActive(true);
@@ -68,13 +70,6 @@ public class Attacker : MonoBehaviour
         lastPosition = transform.position;
     }
 
-    void UpdateStatusText()
-    {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.statusText.text = isHoldingBall ? "Carrying Ball!" : "Chasing Ball!";
-        }
-    }
 
     void ChaseBall(float speed)
     {
@@ -83,6 +78,7 @@ public class Attacker : MonoBehaviour
             float distanceToBall = Vector3.Distance(transform.position, ball.transform.position);
             if (distanceToBall > 0.1f) // Adjust the threshold as needed
             {
+                Anim.SetBool("Running", is_running);
                 Vector3 direction = (ball.transform.position - transform.position).normalized;
                 transform.position += direction * speed * Time.deltaTime;
                 transform.LookAt(ball.transform);
@@ -92,6 +88,7 @@ public class Attacker : MonoBehaviour
 
     void MoveTowardsEnemyGate(float speed)
     {
+        Anim.SetBool( "Running", is_running);
         GameObject enemyGate = GameObject.FindWithTag("EnemyGate");
         if (enemyGate != null)
         {
@@ -126,6 +123,7 @@ public class Attacker : MonoBehaviour
 
     void HandleDefenderCollision()
     {
+        is_running = false;
         if (isHoldingBall)
         {
             PassBallToNearestAttacker();

@@ -13,6 +13,12 @@ TagManager:
   - PlayerGate
   - EnemyFence
   - MazeBall
+  - Gamefield
+  - BallS
+  - ARplane
+  - Spawnpoint
+  - Energy
+  - secondCamera
   layers:
   - Default
   - TransparentFX

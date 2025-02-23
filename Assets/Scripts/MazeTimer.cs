@@ -35,6 +35,6 @@ public class MazeTimer : MonoBehaviour
 
     void UpdateTimeText()
     {
-        timeText.text = "Time Left: " + Mathf.Ceil(timeRemaining).ToString() + "s";
+        timeText.text = "" + Mathf.Ceil(timeRemaining).ToString() + "s";
     }
 } 

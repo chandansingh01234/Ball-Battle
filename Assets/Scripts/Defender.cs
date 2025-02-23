@@ -17,23 +17,29 @@ public class Defender : MonoBehaviour
     private Vector3 originPosition;        // Original position of the Defender
     private bool isChasing = false;        // Flag to check if the Defender is chasing
     private bool isInactivated = false;
-
+    public bool is_running;
+    public Animator anim;  
     void Start()
     {
+        anim = gameObject.GetComponent<Animator>();
         originPosition = transform.position; // Save the original position
         UpdateRangeIndicator();
     }
 
     void Update()
     {
+        anim.SetBool("Running", is_running);
+
         if (isInactivated) return;
 
         if (isChasing)
         {
+            is_running = true;
             ChaseAttacker(normalSpeed);
         }
         else
         {
+            is_running = false;
             DetectAttackers();
             PatrolArea();
         }
@@ -87,6 +93,7 @@ public class Defender : MonoBehaviour
     {
         if (targetAttacker != null)
         {
+
             Vector3 direction = (targetAttacker.transform.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;
             transform.LookAt(targetAttacker.transform);

@@ -4,84 +4,72 @@ using TMPro;
 
 public class EnergyManager : MonoBehaviour
 {
-    public Slider playerEnergyBar; // Player's energy bar
-    public Slider enemyEnergyBar;  // Enemy's energy bar
-    public TextMeshProUGUI playerEnergyText; // Player's energy text (optional)
-    public TextMeshProUGUI enemyEnergyText;  // Enemy's energy text (optional)
+    public Slider attackerEnergyBar; // Attacker's energy bar
+    public Slider defenderEnergyBar;  // Defender's energy bar
 
     public float energyRegenRate = 0.5f;  // Energy regeneration rate per second
     public float maxEnergy = 6f;         // Maximum energy points
 
-    private float playerEnergy;           // Player's current energy
-    private float enemyEnergy;            // Enemy's current energy
+    private float attackerEnergy;           // Attacker's current energy
+    private float defenderEnergy;            // Defender's current energy
+
+    public int Attacker_cost = 2;         // Attacker's cost
+    public int Defender_cost = 3;         // Defender's cost
 
     void Start()
     {
-        playerEnergy = 0f;
-        enemyEnergy = 0f;
+        attackerEnergy = 0f;
+        defenderEnergy = 0f;
 
-        playerEnergyBar.maxValue = maxEnergy;
-        enemyEnergyBar.maxValue = maxEnergy;
+        attackerEnergyBar.maxValue = maxEnergy;
+        defenderEnergyBar.maxValue = maxEnergy;
 
-        playerEnergyBar.value = playerEnergy;
-        enemyEnergyBar.value = enemyEnergy;
+        attackerEnergyBar.value = attackerEnergy;
+        defenderEnergyBar.value = defenderEnergy;
 
-        UpdateEnergyUI();
     }
 
     void Update()
     {
-        // Regenerate energy for both Player and Enemy
-        if (playerEnergy < maxEnergy)
+        // Regenerate energy for both Attacker and Defender
+        if (attackerEnergy < maxEnergy)
         {
-            playerEnergy += energyRegenRate * Time.deltaTime;
-            playerEnergyBar.value = playerEnergy;
+            attackerEnergy += energyRegenRate * Time.deltaTime;
+            attackerEnergy = Mathf.Clamp(attackerEnergy, 0f, maxEnergy); // Clamp energy to max
+            attackerEnergyBar.value = attackerEnergy;
         }
 
-        if (enemyEnergy < maxEnergy)
+        if (defenderEnergy < maxEnergy)
         {
-            enemyEnergy += energyRegenRate * Time.deltaTime;
-            enemyEnergyBar.value = enemyEnergy;
+            defenderEnergy += energyRegenRate * Time.deltaTime;
+            defenderEnergy = Mathf.Clamp(defenderEnergy, 0f, maxEnergy); // Clamp energy to max
+            defenderEnergyBar.value = defenderEnergy;
         }
 
-        UpdateEnergyUI();
     }
 
-    public bool SpendEnergy(bool isPlayer, float cost)
+    public bool SpendEnergy(bool isAttacker)
     {
-        if (isPlayer)
+        if (isAttacker)
         {
-            if (playerEnergy >= cost)
+            if (attackerEnergy >= Attacker_cost)
             {
-                playerEnergy -= cost;
-                playerEnergyBar.value = playerEnergy;
-                UpdateEnergyUI();
+                attackerEnergy -= Attacker_cost;
+                attackerEnergyBar.value = attackerEnergy;
                 return true;
             }
         }
         else
         {
-            if (enemyEnergy >= cost)
+            if (defenderEnergy >= Defender_cost)
             {
-                enemyEnergy -= cost;
-                enemyEnergyBar.value = enemyEnergy;
-                UpdateEnergyUI();
+                defenderEnergy -= Defender_cost;
+                defenderEnergyBar.value = defenderEnergy;
                 return true;
             }
         }
         return false;
     }
 
-    void UpdateEnergyUI()
-    {
-        if (playerEnergyText != null)
-        {
-            playerEnergyText.text = "Player Energy: " + Mathf.CeilToInt(playerEnergy).ToString();
-        }
-
-        if (enemyEnergyText != null)
-        {
-            enemyEnergyText.text = "Enemy Energy: " + Mathf.CeilToInt(enemyEnergy).ToString();
-        }
-    }
+  
 }

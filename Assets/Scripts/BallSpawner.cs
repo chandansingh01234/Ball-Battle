@@ -1,81 +1,40 @@
 using UnityEngine;
-using System.Collections;
+using TMPro;
 
 public class BallSpawner : MonoBehaviour
 {
-    [Header("Spawn Settings")]
     public GameObject ballPrefab;
     public Transform spawnPoint;
-    public float respawnDelay = 3f;
-    public float initialForce = 2f;
-    
-    [Header("Effects")]
-    public ParticleSystem spawnEffect;
-    
-    private bool isRespawning = false;
 
-    void OnEnable()
-    {
-        GameEvents.OnBallDrop += HandleBallDrop;
-    }
-
-    void OnDisable()
-    {
-        GameEvents.OnBallDrop -= HandleBallDrop;
-    }
 
     void Start()
     {
-        SpawnBall();
+        
+            SpawnBall();
+        
     }
 
-    void SpawnBall()
+    public void SpawnBall()
     {
-        if (spawnPoint != null && ballPrefab != null)
+        if (ballPrefab == null)
         {
-            // Play spawn effect
-            if (spawnEffect != null)
-            {
-                spawnEffect.Play();
-            }
-
-            // Spawn the ball with a small upward force
-            GameObject spawnedBall = Instantiate(ballPrefab, spawnPoint.position, Quaternion.identity);
-            Rigidbody ballRb = spawnedBall.GetComponent<Rigidbody>();
-            if (ballRb != null)
-            {
-                ballRb.AddForce(Vector3.up * initialForce, ForceMode.Impulse);
-            }
-
-            // Play spawn sound
-            AudioManager.Instance?.PlaySpawnSound();
-            
-            Debug.Log("Ball spawned at: " + spawnPoint.position);
+            Debug.LogError("BallSpawner: Ball prefab not assigned!");
+            return;
         }
-        else
-        {
-            Debug.LogError("BallSpawner: Spawn point or ball prefab is not assigned!");
-        }
-    }
 
-    void HandleBallDrop(GameObject ball)
-    {
-        RequestBallRespawn();
-    }
+        // Get the center position of the spawned Gamefield object
+        Vector3 objectCenter = spawnPoint.transform.position;
 
-    public void RequestBallRespawn()
-    {
-        if (!isRespawning)
-        {
-            isRespawning = true;
-            StartCoroutine(RespawnRoutine());
-        }
-    }
+        // Add a small offset to the Y-axis to spawn the ball slightly above the Gamefield
+        float yOffset = 0.2f; // Adjust this value as needed
+        Vector3 ballPosition = objectCenter + Vector3.up * yOffset;
 
-    private IEnumerator RespawnRoutine()
-    {
-        yield return new WaitForSeconds(respawnDelay);
-        SpawnBall();
-        isRespawning = false;
+        // Log the ball spawn position
+        Debug.Log("Ball spawn position: " + ballPosition);
+
+        // Spawn the ball at the adjusted position
+        Instantiate(ballPrefab, ballPosition, Quaternion.identity);
+
+        Debug.Log("Ball spawned slightly above Gamefield at: " + ballPosition);
     }
 }
